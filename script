@@ -1,0 +1,52 @@
+function doGet(e) {
+  return HtmlService.createHtmlOutputFromFile('form');
+}
+
+function submitRequest(data) {
+  var ss = SpreadsheetApp.openById('1keZbASBurWeuQo2hE6urKLc9TMF48irOjuyRY5ksOIs'); 
+  var sheet = ss.getSheetByName('Data Permintaan');
+  
+  if (!sheet) {
+    return "Error: Sheet 'Data Permintaan' tidak ditemukan.";
+  }
+  
+  
+  if (sheet.getLastRow() === 0) {
+    var header = ["Nomor", "Tanggal", "Nama Pemesan", "No HP", "Unit", "No NDO", "Nama Peminta", "NIK/NIP", "Jenis APD", "Jumlah", "Status"];
+    sheet.appendRow(header);
+  }
+  
+  
+  var jakartaTime = new Date();
+  var timeZone = "Asia/Jakarta"; 
+  var tanggal = Utilities.formatDate(jakartaTime, timeZone, "yyyy-MM-dd");
+  
+  var lastRow = sheet.getLastRow();
+  var lastNumber = lastRow > 1 ? parseInt(sheet.getRange(lastRow, 1).getValue()) : 0;
+  var nextNumber = lastNumber + 1;
+  var formattedNumber = ('000' + nextNumber).slice(-3);
+  
+  var rows = [];
+  
+  data.pemintaData.forEach(function(peminta) {
+    peminta.apds.forEach(function(apd) {
+      rows.push([
+        formattedNumber,
+        tanggal,
+        data.nama,
+        data.noHp,
+        data.unit,
+        data.noNdo,
+        peminta.nama,
+        peminta.nik,
+        apd.jenis,
+        apd.jumlah,
+        "Diproses"
+      ]);
+    });
+  });
+  
+  sheet.getRange(sheet.getLastRow() + 1, 1, rows.length, rows[0].length).setValues(rows);
+  
+  return "Nomor pesanan anda adalah " + formattedNumber + ". Ingat nomor pesanan anda untuk meminta APD ke unit safety. Silahkan kembali ke website untuk melihat status permintaan anda.";
+}
