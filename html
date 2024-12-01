@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+        padding: 20px;
+        background-color: #f4f4f4;
+      }
+      h1 {
+        color: #333;
+        text-align: center;
+      }
+      form {
+        background: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        max-width: 600px;
+        margin: auto;
+      }
+      label {
+        font-weight: bold;
+      }
+      input[type="text"],
+      input[type="number"],
+      select {
+        width: calc(100% - 22px);
+        padding: 10px;
+        margin: 10px 0 20px 0;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+      }
+      button {
+        background: #5cb85c;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        text-align: center;
+        cursor: pointer;
+        border-radius: 4px;
+        font-size: 16px;
+      }
+      button:hover {
+        background: #4cae4c;
+      }
+      .request {
+        border: 1px solid #ddd;
+        padding: 10px;
+        border-radius: 4px;
+        margin-bottom: 10px;
+        background: #f9f9f9;
+      }
+      .apd {
+        margin-bottom: 10px;
+      }
+      hr {
+        border: 0;
+        border-top: 1px solid #eee;
+        margin: 20px 0;
+      }
+    </style>
+    <script>
+      function addRequest() {
+        var container = document.getElementById('requestContainer');
+        var requestDiv = document.createElement('div');
+        requestDiv.className = 'request';
+        requestDiv.innerHTML = `
+          <hr>
+          <h3>Peminta <span class="pemintaNumber"></span></h3>
+          <label>Nama Peminta:</label><br>
+          <input type="text" name="namaPeminta" required><br>
+          <label>NIK/NIP:</label><br>
+          <input type="text" name="nik" required><br>
+          <div class="apdContainer">
+            <div class="apd">
+              <label>Jenis APD:</label><br>
+              <select name="jenisApd">
+                <option value="Full Body Harness">Full Body Harness</option>
+                <option value="Ear Muff">Ear Muff</option>
+                <option value="Ear Plug">Ear Plug</option>
+                <option value="Helm Putih">Helm Putih</option>
+                <option value="Helm Merah">Helm Merah</option>
+                <option value="Helm Hijau">Helm Hijau</option>
+                <option value="Tali Helm">Tali Helm</option>
+                <option value="Kacamata Clear">Kacamata Clear</option>
+                <option value="Kacamata Google">Kacamata Google</option>
+                <option value="Sarung Tangan Protektor">Sarung Tangan Protektor</option>
+                <option value="Sarung Tangan Las Merah">Sarung Tangan Las Merah</option>
+                <option value="Sarung Tangan Bintik">Sarung Tangan Bintik</option>
+                <option value="Sarung Tangan Panas">Sarung Tangan Panas</option>
+                <option value="Masker Atom Kain Hitam">Masker Atom Kain Hitam</option>
+                <option value="Masker Shigematsu">Masker Shigematsu</option>
+                <option value="Masker 3 M Putih">Masker 3 M Putih</option>
+                <option value="Filter Masker">Filter Masker</option>
+                <option value="(No.38) Sepatu Boots Karet Kuning">(No.38) Sepatu Boots Karet Kuning</option>
+                <option value="(No.39) Sepatu Boots Karet Kuning">(No.39) Sepatu Boots Karet Kuning</option>
+                <option value="(No.40) Sepatu Boots Karet Kuning">(No.40) Sepatu Boots Karet Kuning</option>
+                <option value="(No.41) Sepatu Boots Karet Kuning">(No.41) Sepatu Boots Karet Kuning</option>
+                <option value="(No.42) Sepatu Boots Karet Kuning">(No.42) Sepatu Boots Karet Kuning</option>
+                <option value="(No.43) Sepatu Boots Karet Kuning">(No.43) Sepatu Boots Karet Kuning</option>
+                <option value="Sepatu Safety No 3">Sepatu Safety No 3</option>
+                <option value="Sepatu Safety No 4">Sepatu Safety No 4</option>
+                <option value="Sepatu Safety No 5">Sepatu Safety No 5</option>
+                <option value="Sepatu Safety No 6">Sepatu Safety No 6</option>
+                <option value="Sepatu Safety No 7">Sepatu Safety No 7</option>
+                <option value="Sepatu Safety No 8">Sepatu Safety No 8</option>
+                <option value="Sepatu Safety No 9">Sepatu Safety No 9</option>
+                <option value="Sepatu Safety No 10">Sepatu Safety No 10</option>
+                <option value="Sepatu Safety No 11">Sepatu Safety No 11</option>
+                <option value="Sepatu Safety No 12">Sepatu Safety No 12</option>
+                <option value="Kap Las">Kap Las</option>
+                <option value="Gembok Loto Orange">Gembok Loto Orange</option>
+                <option value="Gembok Loto Kuning">Gembok Loto Kuning</option>
+                <option value="Gembok Loto Merah">Gembok Loto Merah</option>
+                <option value="Police Line">Police Line</option>
+                <option value="Safety Vest Outs">Safety Vest Outs</option>
+                <option value="Safety Vest Dongker">Safety Vest Dongker</option>
+                <option value="Safety Vest Orange">Safety Vest Orange</option>
+                <option value="Safety Vest Merah">Safety Vest Merah</option>
+              </select><br>
+              <label>Jumlah:</label><br>
+              <input type="number" name="jumlahApd" required><br><br>
+              <button type="button" onclick="removeApd(this)">Hapus APD</button><br><br>
+            </div>
+          </div>
+          <button type="button" onclick="addApd(this)">Tambah APD</button>
+          <button type="button" onclick="removeRequest(this)">Hapus Peminta</button><br><br>
+        `;
+        container.appendChild(requestDiv);
+        updatePemintaNumbers();
+      }
+
+      function addApd(button) {
+        var apdContainer = button.closest('.request').querySelector('.apdContainer');
+        var newApd = document.createElement('div');
+        newApd.className = 'apd';
+        newApd.innerHTML = `
+          <label>Jenis APD:</label><br>
+          <select name="jenisApd">
+            <option value="Full Body Harness">Full Body Harness</option>
+            <option value="Ear Muff">Ear Muff</option>
+            <option value="Ear Plug">Ear Plug</option>
+            <option value="Helm Putih">Helm Putih</option>
+            <option value="Helm Merah">Helm Merah</option>
+            <option value="Helm Hijau">Helm Hijau</option>
+            <option value="Tali Helm">Tali Helm</option>
+            <option value="Kacamata Clear">Kacamata Clear</option>
+            <option value="Kacamata Google">Kacamata Google</option>
+            <option value="Sarung Tangan Protektor">Sarung Tangan Protektor</option>
+            <option value="Sarung Tangan Las Merah">Sarung Tangan Las Merah</option>
+            <option value="Sarung Tangan Bintik">Sarung Tangan Bintik</option>
+            <option value="Sarung Tangan Panas">Sarung Tangan Panas</option>
+            <option value="Masker Atom Kain Hitam">Masker Atom Kain Hitam</option>
+            <option value="Masker Shigematsu">Masker Shigematsu</option>
+            <option value="Masker 3 M Putih">Masker 3 M Putih</option>
+            <option value="Filter Masker">Filter Masker</option>
+            <option value="(No.38) Sepatu Boots Karet Kuning">(No.38) Sepatu Boots Karet Kuning</option>
+            <option value="(No.39) Sepatu Boots Karet Kuning">(No.39) Sepatu Boots Karet Kuning</option>
+            <option value="(No.40) Sepatu Boots Karet Kuning">(No.40) Sepatu Boots Karet Kuning</option>
+            <option value="(No.41) Sepatu Boots Karet Kuning">(No.41) Sepatu Boots Karet Kuning</option>
+            <option value="(No.42) Sepatu Boots Karet Kuning">(No.42) Sepatu Boots Karet Kuning</option>
+            <option value="(No.43) Sepatu Boots Karet Kuning">(No.43) Sepatu Boots Karet Kuning</option>
+            <option value="Sepatu Safety No 3">Sepatu Safety No 3</option>
+            <option value="Sepatu Safety No 4">Sepatu Safety No 4</option>
+            <option value="Sepatu Safety No 5">Sepatu Safety No 5</option>
+            <option value="Sepatu Safety No 6">Sepatu Safety No 6</option>
+            <option value="Sepatu Safety No 7">Sepatu Safety No 7</option>
+            <option value="Sepatu Safety No 8">Sepatu Safety No 8</option>
+            <option value="Sepatu Safety No 9">Sepatu Safety No 9</option>
+            <option value="Sepatu Safety No 10">Sepatu Safety No 10</option>
+            <option value="Sepatu Safety No 11">Sepatu Safety No 11</option>
+            <option value="Sepatu Safety No 12">Sepatu Safety No 12</option>
+            <option value="Kap Las">Kap Las</option>
+            <option value="Gembok Loto Orange">Gembok Loto Orange</option>
+            <option value="Gembok Loto Kuning">Gembok Loto Kuning</option>
+            <option value="Gembok Loto Merah">Gembok Loto Merah</option>
+            <option value="Police Line">Police Line</option>
+            <option value="Safety Vest Outs">Safety Vest Outs</option>
+            <option value="Safety Vest Dongker">Safety Vest Dongker</option>
+            <option value="Safety Vest Orange">Safety Vest Orange</option>
+            <option value="Safety Vest Merah">Safety Vest Merah</option>
+          </select><br>
+          <label>Jumlah:</label><br>
+          <input type="number" name="jumlahApd" required><br><br>
+          <button type="button" onclick="removeApd(this)">Hapus APD</button><br><br>
+        `;
+        apdContainer.appendChild(newApd);
+      }
+
+      function removeRequest(button) {
+        var container = document.getElementById('requestContainer');
+        if (container.childElementCount > 1) {
+          container.removeChild(button.closest('.request'));
+          updatePemintaNumbers();
+        }
+      }
+
+      function removeApd(button) {
+        var apdContainer = button.closest('.apdContainer');
+        if (apdContainer.childElementCount > 1) {
+          apdContainer.removeChild(button.closest('.apd'));
+        }
+      }
+
+      function updatePemintaNumbers() {
+        var pemintaNumbers = document.querySelectorAll('.pemintaNumber');
+        pemintaNumbers.forEach(function(el, index) {
+          el.innerText = index + 1;
+        });
+      }
+
+      function validateForm(data) {
+        if (!data.nama || !data.noHp || !data.unit || !data.noNdo) {
+          alert('Harap lengkapi semua data pada form pemesan.');
+          return false;
+        }
+        for (var i = 0; i < data.pemintaData.length; i++) {
+          var peminta = data.pemintaData[i];
+          if (!peminta.nama || !peminta.nik) {
+            alert('Harap lengkapi semua data pada form peminta.');
+            return false;
+          }
+          for (var j = 0; j < peminta.apds.length; j++) {
+            var apd = peminta.apds[j];
+            if (!apd.jenis || !apd.jumlah) {
+              alert('Harap lengkapi semua data pada form APD.');
+              return false;
+            }
+          }
+        }
+        return true;
+      }
+
+      function submitForm() {
+        var form = document.getElementById('requestForm');
+        var formData = new FormData(form);
+
+        var data = {
+          nama: formData.get('nama'),
+          noHp: formData.get('noHp'),
+          unit: formData.get('unit'),
+          noNdo: formData.get('noNdo'),
+          pemintaData: []
+        };
+
+        var requests = document.querySelectorAll('.request');
+        requests.forEach(function(request) {
+          var namaPeminta = request.querySelector('input[name="namaPeminta"]').value;
+          var nik = request.querySelector('input[name="nik"]').value;
+          var apds = [];
+
+          var apdContainers = request.querySelectorAll('.apdContainer .apd');
+          apdContainers.forEach(function(apdContainer) {
+            var jenisApd = apdContainer.querySelector('select[name="jenisApd"]').value;
+            var jumlahApd = apdContainer.querySelector('input[name="jumlahApd"]').value;
+            apds.push({ jenis: jenisApd, jumlah: jumlahApd });
+          });
+
+          data.pemintaData.push({ nama: namaPeminta, nik: nik, apds: apds });
+        });
+
+        if (!validateForm(data)) {
+          return;
+        }
+
+        google.script.run.withSuccessHandler(function(response) {
+          alert(response);
+          form.reset();
+          document.getElementById('requestContainer').innerHTML = '';
+          addRequest();
+        }).submitRequest(data);
+      }
+
+      document.addEventListener('DOMContentLoaded', function() {
+        addRequest();
+      });
+    </script>
+  </head>
+  <body>
+    <h1>Contoh Form Permintaan APD PT SP</h1>
+    <form id="requestForm">
+      <label>Nama Pemesan/Admin Unit:</label><br>
+      <input type="text" name="nama" required><br>
+      <label>No HP/Telp Unit:</label><br>
+      <input type="text" name="noHp" required><br>
+      <label>Unit:</label><br>
+      <input type="text" name="unit" required><br>
+      <label>No NDO Pemesanan:</label><br>
+      <input type="text" name="noNdo" required><br>
+      <div id="requestContainer"></div>
+      <button type="button" onclick="addRequest()">Tambah Peminta</button><br><br>
+      <button type="button" onclick="submitForm()">Kirim Permintaan</button>
+    </form>
+  </body>
+</html>
